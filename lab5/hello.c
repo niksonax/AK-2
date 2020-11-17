@@ -47,8 +47,6 @@ static int __init hello_init(void)
 {
 	uint i = 0;
 	
-	printk(KERN_INFO "Counter: %d\n", counter);
-	
 	if(counter == 0) {
 		printk(KERN_WARNING "Parameter = 0");
 	} else if(counter >= 5 && counter <= 10) {
@@ -61,6 +59,8 @@ static int __init hello_init(void)
 	for(i = 0; i < counter; i++){
 		printk(KERN_INFO "Hello, world!\n");
 	}
+	
+	printk(KERN_INFO "Counter: %d\n", counter);
 	return 0;
 }
 
