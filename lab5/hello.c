@@ -33,14 +33,13 @@
 #include <linux/module.h>
 #include <linux/printk.h>
 #include <linux/moduleparam.h>
-#include <linux/types.h>
 
 MODULE_AUTHOR("Mykyta Kanyuka IO-81");
 MODULE_DESCRIPTION("Hello, world in Linux Kernel Training");
 MODULE_LICENSE("Dual BSD/GPL");
 
 static uint counter = 1;
-module_param(counter, uint, 0);
+module_param(counter, uint, S_IRUGO);
 MODULE_PARM_DESC(counter, " How many times to print \"Hello, world!\"");
 
 static int __init hello_init(void)
