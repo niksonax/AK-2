@@ -40,55 +40,68 @@ MODULE_DESCRIPTION("Hello, world in Linux Kernel Training");
 MODULE_LICENSE("Dual BSD/GPL");
 
 static struct lab6_list_head *head;
+static uint ct;
 
-
-int hello_print(uint counter){
+int hello_print(uint counter)
+{
 	uint i = 0;
-	struct lab6_list_head *temp1, *temp2;
+	//temporary pointer
+	struct lab6_list_head *temp;
 
-	head = kmalloc(sizeof(struct lab6_list_head*), GFP_KERNEL);
-	temp1 = head;
-
-	if(counter == 0) {
-		pr_warning("Parameter: %d", counter);
-	}else if(counter >=5 && counter <= 10) {
-		pr_warning("Parameter %d. In range [5;10]", counter);
-	} else if(counter > 10) {
+	if (counter <= 0) {
+		pr_warn("Parameter = %d", counter);
+		return -EINVAL;
+	} else if (counter >= 5 && counter <= 10) {
+		pr_warn("Parameter %d. In range [5;10]", counter);
+	} else if (counter > 10) {
 		pr_err("Parameter %d > 10", counter);
 		return -EINVAL;
 	}
 
-	for(i = 0; i < counter; i++){
-		temp1->next = kmalloc(sizeof(struct lab6_list_head), GFP_KERNEL);
-		temp1->t_before_print = ktime_get();
+	ct = counter;
+
+	//memory for first node
+	head = kmalloc(sizeof(struct lab6_list_head), GFP_KERNEL);
+	temp = head;
+
+	for (i = 0; i < counter; i++) {
+		temp->t_before_print = ktime_get();
 		pr_info("Hello World!");
-		temp1->t_after_print = ktime_get();
-		temp2 = temp1;
-		temp1 = temp1->next;
+		temp->t_after_print = ktime_get();
+		//memory for next node
+		temp->next = kmalloc(sizeof(struct lab6_list_head), GFP_KERNEL);
+		//intialize structure (memory clear)
+		temp = temp->next;
+		temp->t_before_print = 0;
+		temp->t_after_print = 0;
+		temp->next = NULL;
 	}
-	if(counter > 0){
-		kfree(temp2->next);
-		temp2->next = NULL;
-	}
+
 	pr_info("");
 	return 0;
 }
-
 EXPORT_SYMBOL(hello_print);
 
 static int __init hello_init(void)
 {
-    return 0;
+	return 0;
 }
 
 static void __exit hello_exit(void)
 {
-	struct lab6_list_head* temp;
-	while(head != NULL){
+	struct lab6_list_head *temp;
+
+	while (ct != 0) {
 		temp = head;
 		pr_info("Print time: %lld", temp->t_after_print - temp->t_before_print);
 		head = temp->next;
 		kfree(temp);
+		ct--;
+		if (ct == 0) {
+			temp = head;
+			head = temp->next;
+			kfree(temp);
+		}
 	}
 	pr_info("");
 }
