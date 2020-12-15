@@ -1,0 +1,118 @@
+
+hello1.ko.unstripped:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+00000000 <hello_print>:
+   0:	e350000a 	cmp	r0, #10
+   4:	e92d4ff8 	push	{r3, r4, r5, r6, r7, r8, r9, sl, fp, lr}
+   8:	8a000032 	bhi	d8 <hello_print+0xd8>
+   c:	e3500000 	cmp	r0, #0
+  10:	e1a04000 	mov	r4, r0
+  14:	0a000030 	beq	dc <hello_print+0xdc>
+  18:	e2403005 	sub	r3, r0, #5
+  1c:	e3530005 	cmp	r3, #5
+  20:	8a000003 	bhi	34 <hello_print+0x34>
+  24:	e3000000 	movw	r0, #0
+  28:	e1a01004 	mov	r1, r4
+  2c:	e3400000 	movt	r0, #0
+  30:	ebfffffe 	bl	0 <printk>
+  34:	e3006000 	movw	r6, #0
+  38:	e3406000 	movt	r6, #0
+  3c:	e3005000 	movw	r5, #0
+  40:	e3405000 	movt	r5, #0
+  44:	e5960018 	ldr	r0, [r6, #24]
+  48:	e3a010c0 	mov	r1, #192	; 0xc0
+  4c:	e3a02018 	mov	r2, #24
+  50:	e3401060 	movt	r1, #96	; 0x60
+  54:	e5854000 	str	r4, [r5]
+  58:	ebfffffe 	bl	0 <kmem_cache_alloc_trace>
+  5c:	e3007000 	movw	r7, #0
+  60:	e3407000 	movt	r7, #0
+  64:	e3a0b000 	mov	fp, #0
+  68:	e3a08000 	mov	r8, #0
+  6c:	e3a09000 	mov	r9, #0
+  70:	e5850004 	str	r0, [r5, #4]
+  74:	e3a050c0 	mov	r5, #192	; 0xc0
+  78:	e3405060 	movt	r5, #96	; 0x60
+  7c:	e1a0a000 	mov	sl, r0
+  80:	ebfffffe 	bl	0 <ktime_get>
+  84:	e28bb001 	add	fp, fp, #1
+  88:	e1ca00f8 	strd	r0, [sl, #8]
+  8c:	e1a00007 	mov	r0, r7
+  90:	ebfffffe 	bl	0 <printk>
+  94:	ebfffffe 	bl	0 <ktime_get>
+  98:	e3a02018 	mov	r2, #24
+  9c:	e1ca01f0 	strd	r0, [sl, #16]
+  a0:	e1a01005 	mov	r1, r5
+  a4:	e5960018 	ldr	r0, [r6, #24]
+  a8:	ebfffffe 	bl	0 <kmem_cache_alloc_trace>
+  ac:	e154000b 	cmp	r4, fp
+  b0:	e3a03000 	mov	r3, #0
+  b4:	e58a0000 	str	r0, [sl]
+  b8:	e1c080f8 	strd	r8, [r0, #8]
+  bc:	e1c081f0 	strd	r8, [r0, #16]
+  c0:	e5803000 	str	r3, [r0]
+  c4:	0a00000a 	beq	f4 <hello_print+0xf4>
+  c8:	e35b0008 	cmp	fp, #8
+  cc:	11a0a000 	movne	sl, r0
+  d0:	03a0a000 	moveq	sl, #0
+  d4:	eaffffe9 	b	80 <hello_print+0x80>
+  d8:	e7f001f2 	.word	0xe7f001f2 // <- BUG goes here!
+  dc:	e1a01000 	mov	r1, r0
+  e0:	e3000000 	movw	r0, #0
+  e4:	e3400000 	movt	r0, #0
+  e8:	ebfffffe 	bl	0 <printk>
+  ec:	e3e00015 	mvn	r0, #21
+  f0:	e8bd8ff8 	pop	{r3, r4, r5, r6, r7, r8, r9, sl, fp, pc}
+  f4:	e3000000 	movw	r0, #0
+  f8:	e3400000 	movt	r0, #0
+  fc:	ebfffffe 	bl	0 <printk>
+ 100:	e3a00000 	mov	r0, #0
+ 104:	e8bd8ff8 	pop	{r3, r4, r5, r6, r7, r8, r9, sl, fp, pc}
+
+Disassembly of section .init.text:
+
+00000000 <init_module>:
+   0:	e3a00000 	mov	r0, #0
+   4:	e12fff1e 	bx	lr
+
+Disassembly of section .exit.text:
+
+00000000 <cleanup_module>:
+   0:	e92d4070 	push	{r4, r5, r6, lr}
+   4:	e3004000 	movw	r4, #0
+   8:	e3006000 	movw	r6, #0
+   c:	e3404000 	movt	r4, #0
+  10:	e3406000 	movt	r6, #0
+  14:	e5943000 	ldr	r3, [r4]
+  18:	e3530000 	cmp	r3, #0
+  1c:	0a000016 	beq	7c <cleanup_module+0x7c>
+  20:	e5945004 	ldr	r5, [r4, #4]
+  24:	e1a00006 	mov	r0, r6
+  28:	e5951010 	ldr	r1, [r5, #16]
+  2c:	e5952008 	ldr	r2, [r5, #8]
+  30:	e595c014 	ldr	ip, [r5, #20]
+  34:	e595300c 	ldr	r3, [r5, #12]
+  38:	e0512002 	subs	r2, r1, r2
+  3c:	e0cc3003 	sbc	r3, ip, r3
+  40:	ebfffffe 	bl	0 <printk>
+  44:	e5953000 	ldr	r3, [r5]
+  48:	e1a00005 	mov	r0, r5
+  4c:	e5843004 	str	r3, [r4, #4]
+  50:	ebfffffe 	bl	0 <kfree>
+  54:	e5943000 	ldr	r3, [r4]
+  58:	e2433001 	sub	r3, r3, #1
+  5c:	e5843000 	str	r3, [r4]
+  60:	e3530000 	cmp	r3, #0
+  64:	1affffea 	bne	14 <cleanup_module+0x14>
+  68:	e5940004 	ldr	r0, [r4, #4]
+  6c:	e5903000 	ldr	r3, [r0]
+  70:	e5843004 	str	r3, [r4, #4]
+  74:	ebfffffe 	bl	0 <kfree>
+  78:	eaffffe5 	b	14 <cleanup_module+0x14>
+  7c:	e3000000 	movw	r0, #0
+  80:	e3400000 	movt	r0, #0
+  84:	e8bd4070 	pop	{r4, r5, r6, lr}
+  88:	eafffffe 	b	0 <printk>
